@@ -4,5 +4,5 @@
 			  output_to_pce/0 ]).
 
 output_to_d3  :- true.
-output_to_pce :- true.
+output_to_pce :- false.
 
