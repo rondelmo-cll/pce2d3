@@ -44,7 +44,7 @@ termdescription(This,A) :-
 
 % ---------------------------------------------------------------------- PICTURE --> svg
 construct(This, picture, InitArgs) :-
-	recordz(This,d3{type:svg, symbol:This}),
+	% recordz(This,d3{type:svg, symbol:This}),
 	writef("\nsymbols.%w = pg.append(\"svg\"); // initargs=%w\nvar svg = symbols.%w;\n", [This, InitArgs, This]),
 	initargs(This, InitArgs). % initargs() gives full-blown treatment.
 
@@ -52,7 +52,7 @@ construct(This, picture, InitArgs) :-
 % ---------------------------------------------------------------------- BOX --> rect
 construct(This, box, InitArgs) :-
 	[Width,Height] = InitArgs,
-	recordz(This,d3{type:rect, symbol:This, width:Width, height:Height}),
+	% recordz(This,d3{type:rect, symbol:This, width:Width, height:Height}),
 	writef("\nsymbols.%w = svg.append(\"rect\") // initargs=%w\n", [This, InitArgs]),
 	writef("    .attr(\"width\", %w)\n",[Width]),
 	writef("    .attr(\"height\",%w)\n",[Height]),
@@ -61,15 +61,17 @@ construct(This, box, InitArgs) :-
 % ---------------------------------------------------------------------- CIRCLE --> circle
 construct(This, circle, InitArgs) :-
 	[Radius] = InitArgs,
-	recordz(This,d3{type:circle, symbol:This, radius:Radius}),
+	% recordz(This,d3{type:circle, symbol:This, radius:Radius}),
 	writef("\nsymbols.%w = svg.append(\"circle\") // initargs=%w\n", [This, InitArgs]),
 	writef("    .attr(\"r\", %w)\n",[Radius]),
 	writef("    ;\n",[]).
 
 % ---------------------------------------------------------------------- TEXT --> text
-
-construct(This, text, [CDATA]) :-
-	recordz(This,d3{type:text, symbol:This, cdata:CDATA}),
+construct(This, text, [Text]) :-
+	% recordz(This,d3{type:text, symbol:This, cdata:CDATA}),
+	(sub_string(Text,_,1,_,"\"")
+	 -> CDATA = "XXX - FIXME - TEXT CONTAINED DOUBLEQUOTES" ; true ),
+	CDATA=Text,
 	writef("\nsymbols.%w = svg.append(\"text\") // initargs=%w\n", [This, CDATA]),
 	writef("    .text(\"%w\")\n",[CDATA]),
 	writef("    ;\n",[]).
