@@ -29,8 +29,16 @@
 			  d3intercept/9
 		  ]).
 :- writeln("init: loading module pce2d3").
-:- [pce2d3_core].
-:- [pce2d3_intercepts].
+
+%
+% order matters:
+%
+
+% show only unhandled d3intercepts
+:- [pce2d3_intercepts, pce2d3_core].
+
+% % show all d3intercepts
+% :- [pce2d3_core, pce2d3_intercepts].
 
 
 

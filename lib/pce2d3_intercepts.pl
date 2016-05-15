@@ -1,15 +1,35 @@
 
-d3intercept(new,A,picture) :-
-	term_string(A,Aa), sub_string(Aa,1,_,0,Ab),
-	writef("symbols.%w = pg.append(\"svg\");\n", [Ab]),
+d3intercept(new,A,TermDescription) :-
+	at_less(A,Ab),
+	constructor(Ab,TermDescription),
 	!.
 
+% what PCE calls a TermDescription
+constructor(Reference,A) :-
+	compound(A), A =.. [Functor | Args],
+	writef("// constructor with compound term %w ( %w )\n",[Functor, Args]),
+	construct(Reference, Functor, Args).
 
-at_less(T,Out) :-
-	term_string(T,S),
-	(   sub_string(S,0,1,_,"@")
-	 -> sub_string(S,1,_,0,Out )
-	 ;  Out = S).
+constructor(A) :-
+	atom(A), A = Functor, Args=[],
+	writef("// constructor with atomic term %w ( )\n",[Functor, Args]),
+	construct(Reference, Functor, Args).
+
+construct(Reference, picture, Params) :-
+	writef("symbols.%w = pg.append(\"svg\"); // %w\n", [Reference, Params]),
+	handle_params(Reference, Params).
+
+handle_params(Reference, []).
+handle_params(Reference, [H|T]) :-
+	handle_param(Reference, H),
+	handle_params(Reference, T).
+
+handle_param(Reference, H) :-
+	atom(H), writef("symbols.%w.attr(\"name\",\"%w\");\n", [Reference, H]).
+
+handle_param(Reference, H) :-
+	compound(H), writef("// constructor(%w) UNHANDLED compound argument %w\n", [Reference, H]).
+
 
 %% when running with use_module(library(pce)),
 %%     pce automatically aliases size,size() to size(size()).
