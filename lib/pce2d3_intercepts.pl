@@ -46,6 +46,7 @@ termdescription(This,A) :-
 construct(This, picture, InitArgs) :-
 	% recordz(This,d3{type:svg, symbol:This}),
 	writef("\nsymbols.%w = pg.append(\"svg\"); // initargs=%w\nvar svg = symbols.%w;\n", [This, InitArgs, This]),
+	d3send(This, size, [size(1234,789)], % hardcode some defaults
 	initargs(This, InitArgs). % initargs() gives full-blown treatment.
 
 % but sometimes we don't need full-blown treatment -- usually the term description is simple.
