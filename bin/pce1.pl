@@ -8,14 +8,15 @@ mydraw(JS) :-
 
 mydraw :-
 	setupd3,
-	new(@pic,picture(myfirstimage)),
-	send(@pic, size,    size(400,400)),
-	send(@pic, open,    point(200,200)),
-	send(@pic, display, new(@bx,box(100,100)),      point(25,25)),
-	send(@pic, display, new(@ci,circle(50)),        point(50,50)),
-	send(@pic, display, new(@tx,text('Wassup!!!')), point(25,150)),
+	new(Pic,picture(myfirstimage)),
+	writef("\n// Pic has been bound to %w\n",[Pic]),
+	send(Pic, size,    size(400,400)),
+	send(Pic, open,    point(200,200)),
+	send(Pic, display, new(@bx,box(100,100)),      point(25,25)),
+	send(Pic, display, new(@ci,circle(50)),        point(50,50)),
+	send(Pic, display, new(@tx,text('Wassup!!!')), point(25,150)),
 	send(@ci, fill_pattern, colour(orange)),
-	free(@pic), free(@bx), free(@ci), free(@tx),
+	free(Pic), free(@bx), free(@ci), free(@tx),
 	!.
 
 
