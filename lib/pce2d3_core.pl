@@ -135,10 +135,10 @@ d3intercept(AA,A,B,C,D,E,F,G,H) :- writef("// d3intercept %w,%w,%w,%w,%w,%w,%w,%
 
 % helper function -- strip @ from object name to make it a legal js variable name
 % at_less(@foo,X)
-% X="foo"
-at_less(T,Out) :-
+at_less(T,OutT) :-
 	term_string(T,S),
 	(   sub_string(S,0,1,_,"@")
 	 -> sub_string(S,1,_,0,Out )
-	 ;  Out = S).
+	 ;  Out = S),
+	term_string(OutT,Out).
 
